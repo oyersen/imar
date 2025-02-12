@@ -3,7 +3,7 @@ header("Content-Type: application/json");
 header("Content-Type: text/html; charset=UTF-8");
 
 setlocale(LC_ALL, 'tr_TR.UTF-8'); // Türkçe karakter desteği
-$baseDir = __DIR__ . "./src/files"; // Dosyaların olduğu ana klasör
+$baseDir = __DIR__ . "/src/files"; // Dosyaların olduğu ana klasör
 $response = [];
 
 if (is_dir($baseDir)) {
@@ -18,7 +18,7 @@ if (is_dir($baseDir)) {
                 if (is_file("$baseDir/$folder/$file")) {
                     $fileList[] = [
                         "name" => $file,
-                        "path" => "./src/files/$folder/$file"
+                        "path" => "/src/files/$folder/$file"
                     ];
                 }
             }
