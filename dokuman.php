@@ -28,14 +28,18 @@
 
     <!-- Jumbotron -->
     <div class="jumbotron text-center py-4 bg-light">
-
         <h2 class="display-6">Dosya Listesi</h2>
         <p class="lead">Aşağıdaki dosyaları indirip kullanabilirsiniz.</p>
     </div>
 
-    <!-- File Table -->
+    <!-- Search Box -->
     <div class="container my-3">
-        <table class="table table-striped table-bordered">
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Dosya ara..." onkeyup="filterFiles()">
+    </div>
+
+    <!-- File Table -->
+    <div class="container">
+        <table class="table table-striped table-bordered mb-5">
             <thead class="table-primary">
                 <tr>
                     <th>Dosya Adı</th>
@@ -52,7 +56,6 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-1">
-
         <div class="container">
             <p>&copy; 2025 İmar A.Ş. Personel Hizmetleri Sistemi. Tüm hakları saklıdır.</p>
         </div>

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { 
     fetch("files.php")
         .then(response => response.json())
         .then(data => populateFileTable(data))
@@ -23,16 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
         Object.keys(categories).forEach(category => {
             // Kategori başlığı için yeni bir satır ekle
             let categoryRow = document.createElement("tr");
-            categoryRow.classList.add("table-secondary");
+            categoryRow.classList.add("table-secondary", "category-row");
             categoryRow.innerHTML = `<td colspan="2" class="fw-bold text-primary">${category}</td>`;
             tableBody.appendChild(categoryRow);
 
             // Kategorinin altındaki dosyaları listele
             categories[category].forEach(file => {
                 let fileRow = document.createElement("tr");
+                fileRow.classList.add("file-row");
 
                 let fileNameCell = document.createElement("td");
                 fileNameCell.textContent = file.name;
+                fileNameCell.classList.add("file-name");
 
                 let fileDownloadCell = document.createElement("td");
                 fileDownloadCell.classList.add("text-center");
@@ -51,3 +53,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// 🔍 Dosya Arama Fonksiyonu
+function filterFiles() {
+    let searchInput = document.getElementById("searchInput").value.toLowerCase();
+    let fileRows = document.querySelectorAll(".file-row");
+
+    fileRows.forEach(row => {
+        let fileName = row.querySelector(".file-name").textContent.toLowerCase();
+        if (fileName.includes(searchInput)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
