@@ -84,4 +84,5 @@
       align-items: center;
       width: 100%;
       margin-top: 20px;
+      visibility: hidden !important;
   }

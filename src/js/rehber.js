@@ -5,7 +5,7 @@ let rowsPerPage = calculateRowsPerPage(); // Dinamik olarak hesaplanan satır sa
 function calculateRowsPerPage() {
     const rowHeight = 50; // Ortalama satır yüksekliği (px)
     const tableHeight = window.innerHeight * 0.8; // Sayfa yüksekliğinin %80'ı
-    return Math.max(Math.floor(tableHeight / rowHeight), 5); // Minimum 5 satır
+    return Math.max(Math.floor(tableHeight / rowHeight), 500); // Minimum 5 satır
 }
 
 function loadExcel() {

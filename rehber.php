@@ -50,7 +50,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="pagination"></div>
+        <div id="pagination" style="visibility:hidden;"></div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="personelModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
