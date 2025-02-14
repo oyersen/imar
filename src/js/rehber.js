@@ -9,7 +9,7 @@ function calculateRowsPerPage() {
 }
 
 function loadExcel() {
-    fetch('src/data/personel_listesi.xlsx')
+    fetch('src/data/liste.xlsx')
         .then(response => response.arrayBuffer())
         .then(data => {
             const workbook = XLSX.read(data, { type: 'array' });
@@ -17,6 +17,7 @@ function loadExcel() {
             const sheet = workbook.Sheets[sheetName];
             const jsonData = XLSX.utils.sheet_to_json(sheet);
             allData = jsonData;
+            console.log(allData)
             filteredData = [...allData];
             updatePagination();
             displayData(1);
@@ -31,24 +32,44 @@ function displayData(page) {
     const startIndex = (page - 1) * rowsPerPage;
     const endIndex = Math.min(startIndex + rowsPerPage, filteredData.length);
     const dataToDisplay = filteredData.slice(startIndex, endIndex);
+
     if (dataToDisplay.length === 0) {
-        // Eğer hiç sonuç yoksa "Personel Bulunmamaktadır." mesajını göster
         tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; font-weight: bold; color: red;">Personel Bulunmamaktadır.</td></tr>`;
         return;
     }
+
     dataToDisplay.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-        <td>${row['Sicil No'] || ''}</td>
-        <td>${row['Ad'] || ''}</td>
-        <td>${row['Soyad'] || ''}</td>
-        <td>${row['Ünvan'] || ''}</td>
-        <td>${row['Departman'] || ''}</td>
-        <td>${row['Telefon'] || ''}</td>
-    `;
+            <td>${row['ADI'] || ''}</td>
+            <td>${row['SOYADI'] || ''}</td>
+            <td>${row['GÖREVİ'] || ''}</td>
+            <td>${row['DAHİLİ NO'] || ''}</td>
+        `;
+
+        // Satır tıklandığında modal açma işlemi
+        tr.addEventListener('click', () => {
+         
+            document.getElementById('modalAd').textContent = row['Adı'] || '';
+            document.getElementById('modalSoyad').textContent = row['Soyadı'] || '';
+          
+            document.getElementById('modalGorevi').textContent = row['Gorevi'] || '';
+            document.getElementById('modalDahiliNo').textContent = row['Telefon'] || '';
+
+            // Resim eklemek için (Resim dosyaları personel resim klasöründe olsun)
+            const sicilNo = row['Sicil No'];
+            // document.getElementById('personelImage').src = `src/img/personel/${sicilNo}.jpg`;
+            document.getElementById('personelImage').src = `src/data/plan/erhanbaysal.bmp`;
+
+            // Modal'ı aç
+            const personelModal = new bootstrap.Modal(document.getElementById('personelModal'));
+            personelModal.show();
+        });
+
         tbody.appendChild(tr);
     });
 }
+
 
 function updatePagination() {
     rowsPerPage = calculateRowsPerPage();
