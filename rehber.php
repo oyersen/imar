@@ -57,17 +57,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Personel Detayı</h5>
+                    <h5 class="modal-title" id="modalTitle">Detay</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
                 </div>
                 <div class="modal-body">
                     <img id="personelImage" src="" alt="Personel Resmi" class="img-fluid mb-3">
-
                     <p><strong>Adı:</strong> <span id="modalAd"></span></p>
                     <p><strong>Soyadı:</strong> <span id="modalSoyad"></span></p>
                     <p><strong>Görevi:</strong> <span id="modalGorevi"></span></p>
-
-                    <p><strong>Dahili No:</strong> <span id="modalTelefon"></span></p>
+                    <p><strong>Dahili No:</strong> <span id="modalDahiliNo"></span></p>
                 </div>
             </div>
         </div>

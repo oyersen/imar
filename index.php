@@ -21,7 +21,7 @@
             <div class="logo" style="display: flex; align-items: center;">
                 <!-- Logo olarak img dosyası kullanılıyor -->
                 <a href="./" class="text-decoration-none">
-                    <img src="./src/img/favicon.ico" alt="Logo" width="50" style="margin-right: 10px;">
+                    <img src="./src/img/imar_logo.png" alt="Logo" width="50" style="margin-right: 10px;">
                 </a>
                 <h3 style="margin: 0;">İMAR İSTANBUL</h3> <!-- margin: 0 ile h3'ün varsayılan margin'ini sıfırladık -->
             </div>
@@ -50,7 +50,7 @@
             <div class="col-md-3 mb-4">
                 <a href="https://imar.istanbul" class="text-decoration-none">
                     <div class="card h-100 card-hover">
-                        <img src="./src/img/favicon.ico" class="card-img-top  d-flex mx-auto" alt="Hizmet 1">
+                        <img src="./src/img/imar_logo.png" class="card-img-top  d-flex mx-auto" alt="Hizmet 1">
                         <div class="card-body">
                             <h5 class="card-title">İMAR İSTANBUL</h5>
                             <p class="card-text"></p>
@@ -104,7 +104,17 @@
     <div class="fluid bg-light  text-center py-1 mb-5">
         <div class="container">
             <h5 class="text-danger">Duyuru ! </h5>
-            <h5>Tüm hizmetlerimiz yakında erişime açılacaktır. </h5>
+            <h5> İnsan Kaynakları</h5>
+            <p><strong>Değerli Çalışma Arkadaşlarımız,
+
+                    Yoğun kar yağışı nedeniyle, güvenliğinizi ön planda tutarak bugün (19.02.2025) saat 13:00 itibariyle personelimiz için mesaimizi sonlandırıyoruz.
+
+                    Yöneticilerimiz ise iş yoğunluklarına göre çıkış yapabilirler.
+
+                    Lütfen dönüş yolculuğunuzda dikkatli olun ve güvenliğinizi önceliklendirin.
+                    <strong>
+            </p>
+
         </div>
     </div>
 

@@ -50,16 +50,16 @@ function displayData(page) {
         // Satır tıklandığında modal açma işlemi
         tr.addEventListener('click', () => {
          
-            document.getElementById('modalAd').textContent = row['Adı'] || '';
-            document.getElementById('modalSoyad').textContent = row['Soyadı'] || '';
+            document.getElementById('modalAd').textContent = row['ADI'] || '';
+            document.getElementById('modalSoyad').textContent = row['SOYADI'] || '';
           
-            document.getElementById('modalGorevi').textContent = row['Gorevi'] || '';
-            document.getElementById('modalDahiliNo').textContent = row['Telefon'] || '';
+            document.getElementById('modalGorevi').textContent = row['GÖREVİ'] || '';
+            document.getElementById('modalDahiliNo').textContent = row['DAHİLİ NO'] || '';
 
             // Resim eklemek için (Resim dosyaları personel resim klasöründe olsun)
-            const sicilNo = row['Sicil No'];
-            // document.getElementById('personelImage').src = `src/img/personel/${sicilNo}.jpg`;
-            document.getElementById('personelImage').src = `src/data/plan/erhanbaysal.bmp`;
+            const plan = (row['ADI'] + row['SOYADI']).replace(/\s+/g, '');
+            document.getElementById('personelImage').src = `src/data/plan/${plan}.bmp`;
+            // document.getElementById('personelImage').src = `src/data/plan/erhanbaysal.bmp`;
 
             // Modal'ı aç
             const personelModal = new bootstrap.Modal(document.getElementById('personelModal'));
