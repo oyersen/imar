@@ -1,0 +1,16 @@
+# Derleme çıktıları
+bin/
+obj/
+
+# Günlük dosyaları
+\*.log
+
+# Geçici dosyalar
+\*.tmp
+
+# Hassas veriler
+config.ini
+secrets.json
+
+src/db
+
