@@ -104,16 +104,9 @@
     <div class="fluid bg-light  text-center py-1 mb-5">
         <div class="container">
             <h5 class="text-danger">Duyuru ! </h5>
-            <h5> İnsan Kaynakları</h5>
-            <p><strong>Değerli Çalışma Arkadaşlarımız,
+            <h5>Personel Hizmetleri Sistemi </h5>
+            <p><strong>Tüm hizmetlerimiz yakında erişime açılacaktır.</strong> </p>
 
-                    Yoğun kar yağışı nedeniyle, güvenliğinizi ön planda tutarak bugün (19.02.2025) saat 13:00 itibariyle personelimiz için mesaimizi sonlandırıyoruz.
-
-                    Yöneticilerimiz ise iş yoğunluklarına göre çıkış yapabilirler.
-
-                    Lütfen dönüş yolculuğunuzda dikkatli olun ve güvenliğinizi önceliklendirin.
-                    <strong>
-            </p>
 
         </div>
     </div>
