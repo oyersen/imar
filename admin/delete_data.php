@@ -5,13 +5,13 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-require_once('master.php');
-$master = new Master();
+require_once('db.php');
+$DB_class = new DB_class();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 if (empty($id)) {
     $_SESSION['msg_error'] = "Deletion Faile! No Member ID Given";
 } else {
-    $delete = $master->delete_data($id);
+    $delete = $DB_class->delete_data($id);
     if (isset($delete['status'])) {
         if ($delete['status'] == 'success') {
             $_SESSION['msg_success'] = 'Member Details has been deleted from JSON File Successfully';

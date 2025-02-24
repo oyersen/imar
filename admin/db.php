@@ -1,6 +1,6 @@
 <?php
-
-class Master
+date_default_timezone_set('Europe/Istanbul');
+class DB_class
 {
     private $db;
 
@@ -44,10 +44,16 @@ class Master
 
     public function insert_data($data)
     {
+        // Gerekli verilerin varlığını kontrol et
+        if (empty($data['title']) || empty($data['content'])) {
+            return $this->error_response('Başlık ve içerik alanları zorunludur.');
+        }
+
         $now = date('Y-m-d H:i:s');
-        $stmt = $this->db->prepare("INSERT INTO duyurular (title, content, created_at, updated_at, is_active, created_by, updated_by) VALUES (:title, :content, :created_at, :updated_at, :is_active, :created_by, :updated_by)");
+        $stmt = $this->db->prepare("INSERT INTO duyurular (id,title, content, created_at, updated_at, is_active, created_by, updated_by) VALUES (:id ,:title, :content, :created_at, :updated_at, :is_active, :created_by, :updated_by)");
         try {
             $result = $stmt->execute([
+                ':id' => date("YmdHis"),
                 ':title' => htmlspecialchars($data['title']),
                 ':content' => htmlspecialchars($data['content']),
                 ':created_at' => $now,
@@ -98,21 +104,27 @@ class Master
     }
 
     //create admin
-    public function insert_admin($username, $password)
+    public function insert_admin($username, $password, $superAdmin)
     {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare("INSERT INTO admin (username, password) VALUES (:username, :password)");
-            $stmt->execute([':username' => $username, ':password' => $hashed_password]);
+            $stmt = $this->db->prepare("INSERT INTO kullanicilar (username, password, superAdmin) VALUES (?, ?, ?)");
+
+            // Parametreleri doğru sırada ve tiplerde bağlayalım
+            $stmt->execute([$username, $hashed_password, $superAdmin]);
+
             return ['status' => 'success'];
         } catch (PDOException $e) {
-            if ($e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: admin.username') !== false) {
+            if (
+                $e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: kullanicilar.username') !== false
+            ) {
                 return ['status' => 'failed', 'error' => 'Bu kullanıcı adı zaten kullanılıyor.'];
             } else {
                 return ['status' => 'failed', 'error' => 'Veritabanı hatası: ' . $e->getMessage()];
             }
         }
     }
+
 
     public function check_username_exists($username)
     {
