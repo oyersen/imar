@@ -1,0 +1,19 @@
+# Veritabanı dosyaları
+
+_.sqlite
+_.db
+
+# Log dosyaları
+
+\*.log
+
+# Geçici dosyalar
+
+_.tmp
+_.swp
+
+# Node.js projeleri için
+
+node_modules/
+src/db
+src/data
