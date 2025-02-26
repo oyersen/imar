@@ -3,24 +3,36 @@ date_default_timezone_set('Europe/Istanbul');
 class DB_class
 {
     private $db;
+    private static $instance = null;
 
-    public function __construct()
+    private function __construct()
     {
         try {
-            $this->db = new PDO('sqlite:../src/db/imarphs.db');
+            $this->db = new PDO('sqlite:' . realpath('../../src/db/imarphs.db'));
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die("Veritabanı bağlantısı başarısız: " . $e->getMessage());
+            die("Veritabanı bağlantısı başarısız: " . $e->getMessage() . " Dosya yolu: " . realpath('../src/db/imarphs.db'));
         }
     }
-
-    public function __destruct()
+    public static function getInstance()
     {
-        $this->db = null; // Bağlantıyı kapat
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
-    public function get_all_data()
+    public function getConnection()
     {
+        return $this->db;
+    }
+
+
+    public function tum_duyurulari_getir()
+    {
+        // echo "Bağlanılan veritabanı: " . realpath('../../src/db/imarphs.db');
+        // exit();
+
         $stmt = $this->db->query("SELECT * FROM duyurular");
         $data = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -29,8 +41,10 @@ class DB_class
         return $data;
     }
 
-    public function get_data($id = '')
+    public function duyuru_getir($id = '')
     {
+
+
         if (!empty($id)) {
             $stmt = $this->db->prepare("SELECT * FROM duyurular WHERE id = :id");
             $stmt->execute([':id' => $id]);
@@ -42,7 +56,7 @@ class DB_class
         return (object) [];
     }
 
-    public function insert_data($data)
+    public function duyuru_ekle($data)
     {
         // Gerekli verilerin varlığını kontrol et
         if (empty($data['title']) || empty($data['content'])) {
@@ -69,7 +83,7 @@ class DB_class
         return $this->handle_result($result, 'Veritabanına ekleme başarısız.');
     }
 
-    public function update_data($data)
+    public function duyuru_guncelle($data)
     {
         $updated_at = date('Y-m-d H:i:s');
         $stmt = $this->db->prepare("UPDATE duyurular SET title = :title, content = :content, updated_at = :updated_at, is_active = :is_active, updated_by = :updated_by WHERE id = :id");
@@ -88,7 +102,7 @@ class DB_class
         return $this->handle_result($result, 'Veritabanı güncelleme başarısız.');
     }
 
-    public function delete_data($id = '')
+    public function duyuru_sil($id = '')
     {
         if (empty($id)) {
             return $this->error_response('Veri ID boş.');
@@ -104,11 +118,11 @@ class DB_class
     }
 
     //create admin
-    public function insert_admin($username, $password, $superAdmin)
+    public function admin_ekle($username, $password, $superAdmin)
     {
         try {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare("INSERT INTO kullanicilar (username, password, superAdmin) VALUES (?, ?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO admin (username, password, superAdmin) VALUES (?, ?, ?)");
 
             // Parametreleri doğru sırada ve tiplerde bağlayalım
             $stmt->execute([$username, $hashed_password, $superAdmin]);
@@ -116,7 +130,7 @@ class DB_class
             return ['status' => 'success'];
         } catch (PDOException $e) {
             if (
-                $e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: kullanicilar.username') !== false
+                $e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: admin.username') !== false
             ) {
                 return ['status' => 'failed', 'error' => 'Bu kullanıcı adı zaten kullanılıyor.'];
             } else {
@@ -126,7 +140,7 @@ class DB_class
     }
 
 
-    public function check_username_exists($username)
+    public function kullanici_adi_kontrol_et($username)
     {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM admin WHERE username = :username");
         $stmt->execute([':username' => $username]);

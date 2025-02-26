@@ -1,31 +1,19 @@
 <?php
-require_once('db.php');
-$DB_class = new DB_class();
+require_once('../contrrollers/kullanicilar/admin_controller.php');
+
+$controller = new AdminController();
+$message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = $_POST["password"];
-    $superAdmin = isset($_POST['superAdmin']) ? 1 : 0; // Checkbox işaretliyse 1 (true), değilse 0 (false)
+    $username = trim($_POST["username"]);
+    $password = trim($_POST["password"]);
+    $superAdmin = isset($_POST["superAdmin"]) ? 1 : 0;
 
-
-    if ($username && $password) {
-        $result = $DB_class->insert_admin($username,$password, $superAdmin);
-
-        if ($result['status'] == 'success') {
-            header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
-            exit;
-        } else {
-            $message = $result['error'];
-        }
-    } else {
-        $message = "Lütfen kullanıcı adı ve şifre girin.";
-    }
-}
-
-if (isset($_GET['success']) && $_GET['success'] == 1) {
-    $message = "Kullanıcı başarıyla oluşturuldu!";
+    $message = $controller->admin_ekle($username, $password, $superAdmin);
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -34,14 +22,14 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kullanıcı Oluştur</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+
 </head>
 
 <body>
 
     <?php
-    include 'include/sidebar.php';
+    include 'partials/sidebar.php';
     ?>
     <div class="content">
         <div class="container px-5 my-3">

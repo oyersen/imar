@@ -5,9 +5,9 @@ if (!isset($_SESSION["user"])) {
     exit();
 }
 
-require_once('db.php');
-$DB_class = new DB_class();
-$json_data = $DB_class->get_all_data();
+require_once('../models/db.php');
+$DB_class = DB_class::getInstance(); // Use getInstance to get the DB instance
+$duyurular = $DB_class->tum_duyurulari_getir();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,13 +23,13 @@ $json_data = $DB_class->get_all_data();
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
 </head>
 
 <body>
 
     <?php
-    include 'include/sidebar.php';
+    include 'partials/sidebar.php';
     ?>
 
     <div class="content">
@@ -93,7 +93,7 @@ $json_data = $DB_class->get_all_data();
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($json_data as $data): ?>
+                                            <?php foreach ($duyurular as $data): ?>
                                                 <tr>
                                                     <td><?= $data->title ?></td>
                                                     <td><?= $data->content ?></td>
