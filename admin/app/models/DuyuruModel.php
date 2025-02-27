@@ -11,8 +11,14 @@ class DuyuruModel
     // Tüm duyuruları getir
     public function tumDuyurulariGetir()
     {
-        $stmt = $this->db->query("SELECT * FROM duyurular");
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->db->query("SELECT * FROM duyurular");
+            $duyurular = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $duyurular;
+        } catch (PDOException $e) {
+            error_log("Duyuru model hatası: " . $e->getMessage(), 0);
+            return []; // Hata durumunda boş dizi döndür
+        }
     }
 
     // Belirli bir duyuruyu ID ile getir

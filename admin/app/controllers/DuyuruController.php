@@ -18,19 +18,25 @@ class DuyuruController extends Controller
         session_start();
 
         if (!isset($_SESSION['user'])) {
-            $this->redirect('index'); // Redirect fonksiyonunu kullan
-            return; // Redirect'ten sonra kodun devam etmesini engelle
+            $this->redirect('index');
+            return;
         }
 
         try {
             $duyurular = $this->duyuruModel->tumDuyurulariGetir();
-            $this->view('duyurular', ['duyurular' => $duyurular]); // Verileri view'e gönder
+            echo "<pre>"; // Önceden biçimlendirilmiş çıktı
+            var_dump($duyurular); // Hata ayıklama
+            echo "</pre>";
+            $this->view('Duyurular', ['duyurular' => $duyurular]);
         } catch (PDOException $e) {
-            // Hata yönetimi
-            error_log("Duyuru listeleme hatası: " . $e->getMessage(), 0); // Hata mesajını log dosyasına kaydet
-            $this->view('duyurular', ['duyurular' => []]); // Boş dizi gönder veya hata mesajı göster
+            error_log("Duyuru listeleme hatası: " . $e->getMessage(), 0);
+            echo "<pre>"; // Önceden biçimlendirilmiş çıktı
+            var_dump([]); // Hata ayıklama
+            echo "</pre>";
+            $this->view('Duyurular', ['duyurular' => []]);
         }
     }
+
 
     // Diğer fonksiyonlar buraya eklenebilir.
 }
