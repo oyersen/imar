@@ -1,13 +1,19 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: index.php");
+// Oturum zaten aktifse, dashboard'a yönlendir
+if (!isset($_SESSION['user'])) {
+    header("Location: index");
     exit();
 }
 
-require_once('../models/db.php');
-$DB_class = DB_class::getInstance(); // Use getInstance to get the DB instance
-$duyurular = $DB_class->tum_duyurulari_getir();
+require_once '../models/DB.php';
+require_once '../models/DuyuruModel.php';
+
+// Veritabanı bağlantısını oluştur
+$db = DB::getInstance()->getConnection();
+$duyuruModel = new DuyuruModel($db);
+$duyurular = $duyuruModel->tumDuyurulariGetir();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +29,7 @@ $duyurular = $DB_class->tum_duyurulari_getir();
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../../public/assets/css/layout.css">
 </head>
 
 <body>

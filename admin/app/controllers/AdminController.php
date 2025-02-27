@@ -1,13 +1,13 @@
 <?php
 require_once('../models/db.php');
-
-class AdminController
+require_once('../models/KullaniciModel.php');
+class AdminController extends Controller
 {
-    private $DB_class;
+    private $DB;
 
     public function __construct()
     {
-        $this->DB_class = DB_class::getInstance();
+        $this->DB = DB::getInstance();
     }
 
     public function admin_ekle($username, $password, $superAdmin)
@@ -17,7 +17,7 @@ class AdminController
         }
 
         $superAdmin = $superAdmin ? 1 : 0;
-        $isAdded = $this->DB_class->admin_ekle($username, $password, $superAdmin);
+        $isAdded = $this->DB->admin_ekle($username, $password, $superAdmin);
 
         if ($isAdded) {
             return "<div class='alert alert-success'>Admin başarıyla eklendi.</div>";

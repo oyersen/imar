@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <a class="nav-link" href="#"><i class="fas fa-cog"></i> Ayarlar</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link logout-link" href="../logout.php"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
+            <a class="nav-link logout-link" href="../../logout.php"><i class="fas fa-sign-out-alt"></i> Çıkış</a>
         </li>
     </ul>
 </div>

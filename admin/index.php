@@ -3,7 +3,7 @@ session_start();
 
 // Oturum zaten aktifse, dashboard'a yönlendir
 if (isset($_SESSION['user'])) {
-    header("Location: views/duyurular.php");
+    header("Location: <views>duyurular.php");
     exit();
 }
 
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["user"] = $username;
             $_SESSION["superAdmin"] = $user['superAdmin'];
-            header("Location: views/duyurular.php");
+            header("Location: dashboard.php");
             exit();
         } else {
             $error = "Geçersiz kullanıcı adı veya şifre!";
@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="row g-0">
             <div class="col-md-6 bg-dark d-none d-md-flex justify-content-center align-items-center vh-100">
-                <a href="index.php"><img src="assets/img/imar_logo.png" alt="Firma Logosu"></a>
-            </div>
+<a href="index.ph">                <img src="public                /assets/img/imar                _logo.png" alt="                Firma Logosu"></                a>
+                            </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-center align-items-center vh-100">
 
