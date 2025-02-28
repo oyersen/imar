@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Oturum zaten aktifse, dashboard'a yönlendir
+
 if (isset($_SESSION['user'])) {
     header("Location: duyurular.php");
     exit();
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["user"] = $username;
             $_SESSION["superAdmin"] = $user['superAdmin'];
-            header("Location: dashboard.php");
+            header("Location: duyurular.php");
             exit();
         } else {
             $error = "Geçersiz kullanıcı adı veya şifre!";

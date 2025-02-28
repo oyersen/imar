@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // GET isteği kontrolü ve veri alma
 $username = $_SESSION['user'];
 $data = $DB->get_admin_by_username($username);
-
+echo $_SESSION["superAdmin"];
 ?>
 
 <!DOCTYPE html>
