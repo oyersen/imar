@@ -1,3 +1,41 @@
+<?php
+
+if (file_exists('./src/model/DB.php')) {
+    require_once './src/model/DB.php';
+} else {
+    die('DB.php dosyası bulunamadı!');
+}
+
+if (file_exists('./src/model/DuyuruModel.php')) {
+    require_once './src/model/DuyuruModel.php';
+} else {
+    die('DuyuruModel.php dosyası bulunamadı!');
+}
+
+try {
+    $db = DB::getInstance()->getConnection();
+    $duyuruModel = new DuyuruModel($db); // DuyuruModel sınıfını kullan
+    $duyurular = $duyuruModel->tumDuyurulariGetir(); // Duyuruları çek
+
+    // Duyuruları görüntüleme (örnek)
+    if (!empty($duyurular)) {
+        foreach ($duyurular as $duyuru) {
+            echo "<h2>" . htmlspecialchars($duyuru['baslik']) . "</h2>";
+            echo "<p>" . nl2br(htmlspecialchars($duyuru['icerik'])) . "</p>";
+            echo "<hr>";
+        }
+    } else {
+        echo "Henüz duyuru bulunmamaktadır.";
+    }
+
+} catch (PDOException $e) { // PDOException yakala
+    die("Veritabanı hatası: " . $e->getMessage());
+} catch (Exception $e) { // Diğer hataları yakala
+    die("Bir hata oluştu: " . $e->getMessage());
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="tr">
 

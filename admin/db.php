@@ -6,8 +6,9 @@ class DB
 
     public function __construct()
     {
+       
         try {
-            $this->db = new PDO('sqlite:../src/db/imarphs.db');
+            $this->db = new PDO('sqlite:../db/imarphs.db');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Veritabanı bağlantısı başarısız: " . $e->getMessage());
@@ -103,27 +104,7 @@ class DB
         }
     }
 
-    //create admin
-    public function insert_admin($username, $password, $superAdmin)
-    {
-        try {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare("INSERT INTO kullanicilar (username, password, superAdmin) VALUES (?, ?, ?)");
-
-            // Parametreleri doğru sırada ve tiplerde bağlayalım
-            $stmt->execute([$username, $hashed_password, $superAdmin]);
-
-            return ['status' => 'success'];
-        } catch (PDOException $e) {
-            if (
-                $e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: kullanicilar.username') !== false
-            ) {
-                return ['status' => 'failed', 'error' => 'Bu kullanıcı adı zaten kullanılıyor.'];
-            } else {
-                return ['status' => 'failed', 'error' => 'Veritabanı hatası: ' . $e->getMessage()];
-            }
-        }
-    }
+  
 
     //get admin
     public function get_admin($id = '')
@@ -176,7 +157,27 @@ class DB
         }
         return $data;
     }
+  //create admin
+    public function insert_admin($username, $password, $superAdmin)
+    {
+        try {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $this->db->prepare("INSERT INTO admin (username, password, superAdmin) VALUES (?, ?, ?)");
 
+            // Parametreleri doğru sırada ve tiplerde bağlayalım
+            $stmt->execute([$username, $hashed_password, $superAdmin]);
+
+            return ['status' => 'success'];
+        } catch (PDOException $e) {
+            if (
+                $e->getCode() == 23000 && strpos($e->getMessage(), 'UNIQUE constraint failed: kullanicilar.username') !== false
+            ) {
+                return ['status' => 'failed', 'error' => 'Bu kullanıcı adı zaten kullanılıyor.'];
+            } else {
+                return ['status' => 'failed', 'error' => 'Veritabanı hatası: ' . $e->getMessage()];
+            }
+        }
+    }
     // Admin bilgilerini güncelleyen fonksiyon
     public function update_admin($data)
     {

@@ -13,28 +13,35 @@ $DB = new DB();
 // POST isteği kontrolü
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id'] > 0 ? (int)$_POST['id'] : 0;
+    $password = $_POST['password'];
+    $password_verify = $_POST['password_verify'];
 
-    try {
-        if ($id > 0) {
-            $save = $DB->update_admin($_POST);
-            $_SESSION['msg_success'] = 'Bilgileriniz Başarı ile Güncellendi';
-        } 
+    if ($password !== $password_verify) {
+        $_SESSION['msg_error'] = 'Şifreler eşleşmiyor.';
+    } else {
+        try {
+            if ($id > 0) {
+                $save = $DB->update_admin($_POST);
+                $_SESSION['msg_success'] = 'Bilgileriniz Başarı ile Güncellendi';
+                $_SESSION['user'] = $_POST['username'];
+            }
 
-        if (isset($save['status']) && $save['status'] == 'success') {
-            header('location: ./profil');
-            exit;
-        } else {
-            $_SESSION['msg_error'] = isset($save['error']) ? $save['error'] : 'Kayıt işleminde bir hata oluştu.';
+            if (isset($save['status']) && $save['status'] == 'success') {
+                header('location: ./profil');
+                exit;
+            } else {
+                $_SESSION['msg_error'] = isset($save['error']) ? $save['error'] : 'Kayıt işleminde bir hata oluştu.';
+            }
+        } catch (Exception $e) {
+            $_SESSION['msg_error'] = 'Kayıt işleminde bir hata oluştu: ' . $e->getMessage();
         }
-    } catch (Exception $e) {
-        $_SESSION['msg_error'] = 'Kayıt işleminde bir hata oluştu: ' . $e->getMessage();
     }
 }
 
 // GET isteği kontrolü ve veri alma
 $username = $_SESSION['user'];
 $data = $DB->get_admin_by_username($username);
-echo $_SESSION["superAdmin"];
+
 ?>
 
 <!DOCTYPE html>
@@ -49,8 +56,6 @@ echo $_SESSION["superAdmin"];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </head>
 
 <body>
@@ -123,6 +128,11 @@ echo $_SESSION["superAdmin"];
                                         <div class="mb-3">
                                             <label for="password_verify" class="form-label">Şifreyi Doğrula</label>
                                             <input type="password" class="form-control rounded-0" id="password_verify" name="password_verify" required="required">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="superAdmin" class="form-label">Yetki Durumu</label>
+                                            <input type="text" class="form-control rounded-0" id="yetki" name="yetki" value="<?= isset($data->superAdmin) && $data->superAdmin ? 'Super Admin' : 'Admin' ?>" disabled>
                                         </div>
                                     </form>
                                 </div>
