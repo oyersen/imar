@@ -3,7 +3,7 @@ session_start();
 
 // Oturum zaten aktifse, dashboard'a yönlendir
 if (isset($_SESSION['user'])) {
-    header("Location: dashboard.php");
+    header("Location: duyurular.php");
     exit();
 }
 
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="row g-0">
             <div class="col-md-6 bg-dark d-none d-md-flex justify-content-center align-items-center vh-100">
-                <img src="imar_logo.png" alt="Firma Logosu">
+                <img src="assets/img/imar_logo.png" alt="Firma Logosu">
             </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-center align-items-center vh-100">

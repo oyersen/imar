@@ -6,12 +6,12 @@ if (!isset($_SESSION["user"])) {
 }
 
 require_once('db.php');
-$DB_class = new DB_class();
+$DB = new DB();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 if (empty($id)) {
     $_SESSION['msg_error'] = "Deletion Faile! No Member ID Given";
 } else {
-    $delete = $DB_class->delete_data($id);
+    $delete = $DB->delete_data($id);
     if (isset($delete['status'])) {
         if ($delete['status'] == 'success') {
             $_SESSION['msg_success'] = 'Member Details has been deleted from JSON File Successfully';
@@ -22,4 +22,4 @@ if (empty($id)) {
         $_SESSION['msg_error'] = 'Details has failed to save due to some error.';
     }
 }
-header('location: ./');
+header('location: ./duyurular');

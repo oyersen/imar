@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Istanbul');
-class DB_class
+class DB
 {
     private $db;
 
@@ -124,6 +124,106 @@ class DB_class
             }
         }
     }
+
+    //get admin
+    public function get_admin($id = '')
+    {
+        if (!empty($id)) {
+            $stmt = $this->db->prepare("SELECT * FROM admin WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return (object) $row;
+            }
+        }
+        return (object) [];
+    }
+
+    //get admin by_username
+    public function get_admin_by_username($username = '')
+    {
+        if (!empty($username)) {
+            try {
+                $stmt = $this->db->prepare("SELECT * FROM admin WHERE username = :username");
+                $stmt->execute([':username' => $username]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($row) {
+                    return (object) $row;
+                } else {
+                    // Kayıt bulunamadıysa mesaj yazdır
+                    echo 'Kullanıcı bulunamadı.';
+                }
+            } catch (PDOException $e) {
+                // Hata mesajını görüntüleyin veya loglayın
+                echo 'Veritabanı hatası: ' . $e->getMessage();
+            }
+        } else {
+            // Kullanıcı adı boşsa mesaj yazdır
+            echo 'Kullanıcı adı boş.';
+        }
+        return (object) [];
+    }
+
+
+
+    //get all admin
+    public function get_all_admin()
+    {
+        $stmt = $this->db->query("SELECT * FROM admin");
+        $data = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data[$row['id']] = (object) $row;
+        }
+        return $data;
+    }
+
+    // Admin bilgilerini güncelleyen fonksiyon
+    public function update_admin($data)
+    {
+        // SQL sorgusunu hazırlayın
+        $stmt = $this->db->prepare("UPDATE admin SET username = :username, password = :password, superAdmin = :superAdmin WHERE id = :id");
+
+        // Şifreyi hashleyin
+        $hashed_password = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        try {
+            // Sorguyu çalıştırın
+            $result = $stmt->execute([
+                ':username' => $data['username'],
+                ':password' => $hashed_password,
+                ':superAdmin' => isset($data['superAdmin']) ? $data['superAdmin'] : 0, // Varsayılan değer 0
+                ':id' => $data['id']
+            ]);
+
+            // İşlemin başarılı olup olmadığını kontrol edin
+            if ($result) {
+                return ['status' => 'success'];
+            } else {
+                return ['status' => 'error', 'error' => 'Güncelleme başarısız.'];
+            }
+        } catch (PDOException $e) {
+            // Hata durumunda geri bildirim sağlayın
+            return ['status' => 'error', 'error' => 'Veritabanı güncelleme hatası: ' . $e->getMessage()];
+        }
+    }
+
+
+    //delete admin
+    public function delete_admin($id = '')
+    {
+        if (empty($id)) {
+            return $this->error_response('Veri ID boş.');
+        } else {
+            $stmt = $this->db->prepare("DELETE FROM admin WHERE id = :id");
+            try {
+                $result = $stmt->execute([':id' => $id]);
+            } catch (PDOException $e) {
+                return $this->error_response('Veritabanından silme başarısız: ' . $e->getMessage());
+            }
+            return $this->handle_result($result, 'Veritabanından silme başarısız.');
+        }
+    }
+
 
 
     public function check_username_exists($username)

@@ -8,7 +8,7 @@ if (!isset($_SESSION["user"])) {
 }
 
 require_once('db.php');
-$DB_class = new DB_class();
+$DB = new DB();
 
 // POST isteği kontrolü
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,10 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($id > 0) {
-            $save = $DB_class->update_data($_POST);
+            $save = $DB->update_data($_POST);
             $_SESSION['msg_success'] = 'Duyuru Başarıyla Güncellendi';
         } else {
-            $save = $DB_class->insert_data($_POST);
+            $save = $DB->insert_data($_POST);
             $_SESSION['msg_success'] = 'Yeni Duyuru Başarıyla Eklendi';
         }
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // GET isteği kontrolü ve veri alma
 $id = isset($_GET['id']) && is_numeric($_GET['id']) && $_GET['id'] > 0 ? (int)$_GET['id'] : '';
-$data = $DB_class->get_data($id);
+$data = $DB->get_data($id);
 ?>
 
 <!DOCTYPE html>
