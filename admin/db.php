@@ -181,6 +181,37 @@ class DB
     // Admin bilgilerini güncelleyen fonksiyon
     public function update_admin($data)
     {
+        // Şifre kriterlerini kontrol eden fonksiyon
+        function validatePassword($password)
+        {
+            $minLen = 8;
+            $hasUpper = preg_match('/[A-Z]/', $password);
+            $hasLower = preg_match('/[a-z]/', $password);
+            $hasNumber = preg_match('/\d/', $password);
+            $hasSpecial = preg_match('/[^a-zA-Z\d]/', $password);
+
+            if (strlen($password) < $minLen) {
+                return "Şifre en az 8 karakter olmalıdır.";
+            } elseif (!$hasUpper) {
+                return "Şifre en az bir büyük harf içermelidir.";
+            } elseif (!$hasLower) {
+                return "Şifre en az bir küçük harf içermelidir.";
+            } elseif (!$hasNumber) {
+                return "Şifre en az bir rakam içermelidir.";
+            } elseif (!$hasSpecial) {
+                return "Şifre en az bir özel karakter içermelidir.";
+            }
+
+            return true; // Şifre geçerli
+        }
+
+        // Şifre kriterlerini kontrol et
+        $passwordValidation = validatePassword($data['password']);
+
+        if ($passwordValidation !== true) {
+            return ['status' => 'error', 'error' => $passwordValidation]; // Hata mesajını döndür
+        }
+
         // SQL sorgusunu hazırlayın
         $stmt = $this->db->prepare("UPDATE admin SET username = :username, password = :password, superAdmin = :superAdmin WHERE id = :id");
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+// Oturum zaman aşımı süresi (saniye)
+$timeout = 1800; // 30 dakika
 
 if (isset($_SESSION['user'])) {
     header("Location: duyurular.php");
@@ -30,6 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION["user"] = $username;
             $_SESSION["superAdmin"] = $user['superAdmin'];
+            $_SESSION['timeout'] = time() + $timeout; // Zaman aşımı süresini ayarla
+            $_SESSION['last_activity'] = time(); // Son işlem zamanını ayarla
             header("Location: duyurular.php");
             exit();
         } else {
@@ -79,13 +82,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="card shadow p-4" style="width: 300px;">
 
-                        <?php if (isset($error)) echo "<p class='text-danger text-center'>$error</p>"; ?>
+                        <?php if (isset($error))
+                            echo "<p class='text-danger text-center'>$error</p>"; ?>
                         <form method="POST">
                             <div class="mb-3">
-                                <input type="text" name="username" class="form-control" placeholder="Kullanıcı Adı" required>
+                                <input type="text" name="username" class="form-control" placeholder="Kullanıcı Adı"
+                                    required>
                             </div>
                             <div class="mb-3">
-                                <input type="password" name="password" class="form-control" placeholder="Şifre" required>
+                                <input type="password" name="password" class="form-control" placeholder="Şifre"
+                                    required>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
                         </form>

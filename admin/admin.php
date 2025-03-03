@@ -62,21 +62,28 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                             </div>
                             <div class="card-body">
                                 <div class="container-fluid">
-                                    <?php if (isset($message)) echo "<p class='text-center'>$message</p>"; ?>
+                                    <?php if (isset($message))
+                                        echo "<p class='text-center'>$message</p>"; ?>
                                     <form method="POST">
                                         <div class="mb-3">
-                                            <input type="text" name="username" class="form-control" placeholder="Kullanıcı Adı" required style="max-width: 400px; margin: 0 auto;">
+                                            <input type="text" name="username" class="form-control"
+                                                placeholder="Kullanıcı Adı" required
+                                                style="max-width: 400px; margin: 0 auto;">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="password" name="password" class="form-control" placeholder="Şifre" required style="max-width: 400px; margin: 0 auto;">
+                                            <input type="password" name="password" class="form-control"
+                                                placeholder="Şifre" required style="max-width: 400px; margin: 0 auto;">
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-check" style="max-width: 400px; margin: 0 auto;">
-                                                <input type="checkbox" name="superAdmin" class="form-check-input" id="superAdminCheckbox">
-                                                <label class="form-check-label" for="superAdminCheckbox">Süper Admin Yetkisi Ver</label>
+                                                <input type="checkbox" name="superAdmin" class="form-check-input"
+                                                    id="superAdminCheckbox">
+                                                <label class="form-check-label" for="superAdminCheckbox">Süper Admin
+                                                    Yetkisi Ver</label>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary form-control" style="max-width: 400px; margin: 0 auto; display: block;">Oluştur</button>
+                                        <button type="submit" class="btn btn-primary form-control"
+                                            style="max-width: 400px; margin: 0 auto; display: block;">Oluştur</button>
                                     </form>
                                 </div>
                             </div>
@@ -93,7 +100,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
                                         <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()" class="text-decoration-none text-reset fw-bolder mx-3">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
                                                 <i class="fa-solid fa-times"></i>
                                             </a>
                                         </div>
@@ -106,7 +114,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
                                         <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()" class="text-decoration-none text-reset fw-bolder mx-3">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
                                                 <i class="fa-solid fa-times"></i>
                                             </a>
                                         </div>
@@ -144,7 +153,9 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                                     <td><?php echo $data->superAdmin ? 'Super Admin' : 'Admin'; ?></td>
 
                                                     <td class="text-center">
-                                                        <a href="delete_admin.php?id=<?= $data->id ?>" class="btn btn-sm btn-outline-danger rounded-0" onclick="if(confirm(`Are you sure to delete <?= $data->name ?> details?`) === false) event.preventDefault();">
+                                                        <a href="delete_admin.php?id=<?= $data->id ?>"
+                                                            class="btn btn-sm btn-outline-danger rounded-0"
+                                                            onclick="if(confirm(`Are you sure to delete <?= $data->name ?> details?`) === false) event.preventDefault();">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </a>
                                                     </td>
