@@ -133,7 +133,7 @@ try {
         <div class="container">
             <h5 class="text-danger fw-bold">📢 Duyuru!</h5>
             <h5 class="fw-semibold">Personel Hizmetleri Sistemi</h5>
-            <p class="fw-medium text-muted">Tüm hizmetlerimiz yakında erişime açılacaktır.</p>
+            <p class="fw-medium text-muted"></p>
 
             <div class="list-group">
                 <?php foreach ($duyurular as $data): ?>

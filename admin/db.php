@@ -5,8 +5,10 @@ class DB
     private $db;
 
     public function __construct()
-    {        try {
-            $this->db = new PDO('sqlite:../db/imarphs.db');
+    {
+
+        try {
+            $this->db = new PDO('sqlite:../src/db/imarphs.db');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Veritabanı bağlantısı başarısız: " . $e->getMessage());
@@ -101,6 +103,8 @@ class DB
             return $this->handle_result($result, 'Veritabanından silme başarısız.');
         }
     }
+
+
 
     //get admin
     public function get_admin($id = '')

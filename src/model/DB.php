@@ -6,9 +6,6 @@ class DB
     private $db;
     private static $config = [
         'db_path' => __DIR__ . '/../db/imarphs.db', // Tam yol
-
-
-
     ];
 
     private function __construct()
