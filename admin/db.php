@@ -79,7 +79,7 @@ class DB
                 ':title' => htmlspecialchars($data['title']),
                 ':content' => htmlspecialchars($data['content']),
                 ':updated_at' => $updated_at,
-                ':is_active' => 1,
+                ':is_active' => $data['is_active'],
                 ':updated_by' => $data['updated_by'],
                 ':id' => $data['id']
             ]);
@@ -87,6 +87,13 @@ class DB
             return $this->error_response('Veritabanı güncelleme başarısız: ' . $e->getMessage());
         }
         return $this->handle_result($result, 'Veritabanı güncelleme başarısız.');
+    }
+
+
+    public function updateActive($id, $is_active)
+    {
+        $stmt = $this->db->prepare("UPDATE duyurular SET is_active = :is_active WHERE id = :id");
+        $stmt->execute([':is_active' => $is_active, ':id' => $id]);
     }
 
     public function delete_data($id = '')
@@ -279,4 +286,9 @@ class DB
     {
         return ['status' => 'failed', 'error' => $error_message];
     }
+}
+// AJAX isteği kontrolü
+if (isset($_POST['action']) && $_POST['action'] == 'updateActive') {
+    $DB = new DB();
+    $DB->updateActive($_POST['id'], $_POST['is_active']);
 }

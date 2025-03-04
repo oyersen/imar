@@ -95,34 +95,34 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 <div class="col-lg-10 col-md-11 col-sm-12 mt-4 pt-4 mx-auto">
                     <div class="container-fluid">
                         <?php if (isset($_SESSION['msg_success']) || isset($_SESSION['msg_error'])): ?>
-                            <?php if (isset($_SESSION['msg_success'])): ?>
-                                <div class="alert alert-success rounded-0">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
-                                        <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()"
-                                                class="text-decoration-none text-reset fw-bolder mx-3">
-                                                <i class="fa-solid fa-times"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                        <?php if (isset($_SESSION['msg_success'])): ?>
+                        <div class="alert alert-success rounded-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
+                                <div class="col-auto">
+                                    <a href="#" onclick="$(this).closest('.alert').remove()"
+                                        class="text-decoration-none text-reset fw-bolder mx-3">
+                                        <i class="fa-solid fa-times"></i>
+                                    </a>
                                 </div>
-                                <?php unset($_SESSION['msg_success']); ?>
-                            <?php endif; ?>
-                            <?php if (isset($_SESSION['msg_error'])): ?>
-                                <div class="alert alert-danger rounded-0">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
-                                        <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()"
-                                                class="text-decoration-none text-reset fw-bolder mx-3">
-                                                <i class="fa-solid fa-times"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <?php unset($_SESSION['msg_success']); ?>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['msg_error'])): ?>
+                        <div class="alert alert-danger rounded-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
+                                <div class="col-auto">
+                                    <a href="#" onclick="$(this).closest('.alert').remove()"
+                                        class="text-decoration-none text-reset fw-bolder mx-3">
+                                        <i class="fa-solid fa-times"></i>
+                                    </a>
                                 </div>
-                                <?php unset($_SESSION['msg_error']); ?>
-                            <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php unset($_SESSION['msg_error']); ?>
+                        <?php endif; ?>
                         <?php endif; ?>
                         <div class="card rounded-0 shadow">
                             <div class="card-header">
@@ -148,21 +148,40 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         </thead>
                                         <tbody>
                                             <?php foreach ($json_data as $data): ?>
-                                                <tr>
-                                                    <td><?= $data->username ?></td>
-                                                    <td><?php echo $data->superAdmin ? 'Super Admin' : 'Admin'; ?></td>
-
-                                                    <td class="text-center">
-                                                        <a href="delete_admin.php?id=<?= $data->id ?>"
-                                                            class="btn btn-sm btn-outline-danger rounded-0"
-                                                            onclick="if(confirm(`Are you sure to delete <?= $data->name ?> details?`) === false) event.preventDefault();">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td><?= $data->username ?></td>
+                                                <td><?php echo $data->superAdmin ? 'Super Admin' : 'Admin'; ?></td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-outline-danger rounded-0"
+                                                        onclick="openDeleteModal(<?= $data->id ?>, '<?= $data->username ?>')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
+                                    <div class="modal fade" id="deleteModal" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Kullanıcıyı Sil</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><strong><span id="deleteUsername"></span></strong> kullanıcısını
+                                                        silmek istediğinizden emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">İptal</button>
+                                                    <a href="#" id="confirmDelete" class="btn btn-danger">Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +191,14 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         </div>
     </div>
 
-
+    <script>
+    function openDeleteModal(id, username) {
+        document.getElementById('deleteUsername').textContent = username;
+        document.getElementById('confirmDelete').href = 'delete_admin.php?id=' + id;
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+    </script>
 
 
 </body>

@@ -80,3 +80,15 @@
  .btn-outline-danger {
      border-radius: 50px;
  }
+
+ .soluk-metin {
+     opacity: 0.5;
+ }
+
+ .acik-gri-metin {
+     color: #888;
+ }
+
+ .clickable {
+     cursor: pointer;
+ }

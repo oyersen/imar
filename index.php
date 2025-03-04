@@ -129,28 +129,32 @@ try {
         </div>
     </div>
 
-    <div class="fluid bg-light text-center py-1 mb-5">
+    <div class="fluid bg-light py-1 mb-5">
         <div class="container">
-            <h5 class="text-danger fw-bold">📢 Duyuru!</h5>
-            <h5 class="fw-semibold">Personel Hizmetleri Sistemi</h5>
-            <p class="fw-medium text-muted"></p>
+            <div class="text-center">
+                <h5 class="text-danger fw-bold"> Duyuru!</h5>
+                <h5 class="fw-semibold">Personel Hizmetleri Sistemi</h5>
+                <p class="fw-medium text-muted"></p>
+            </div>
 
             <div class="list-group">
                 <?php foreach ($duyurular as $data): ?>
-                    <div class="list-group-item border rounded shadow-sm p-3 mb-2"
-                        style="background: linear-gradient(to right, #f9f9f9, #ececec);">
-                        <div
-                            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                            <div class="flex-grow-1">
-                                <h6 class="text-secondary fw-semibold"><?= htmlspecialchars($data['title']) ?></h6>
-                                <p class="text-muted mb-0">
-                                    <?= htmlspecialchars($data['content']) ?>
-                                </p>
-                            </div>
-                            <small
-                                class="text-muted mt-2 mt-md-0"><?= date('d.m.Y H:i', strtotime($data['updated_at'])) ?></small>
+                <?php if ($data['is_active'] == 1): ?>
+                <div class="list-group-item border rounded shadow-sm p-3 mb-2"
+                    style="background: linear-gradient(to right, #f9f9f9, #ececec);">
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="flex-grow-1">
+                            <h6 class="text-secondary fw-semibold"><?= htmlspecialchars($data['title']) ?></h6>
+                            <p class="text-muted mb-0">
+                                <?= htmlspecialchars($data['content']) ?>
+                            </p>
                         </div>
+                        <small
+                            class="text-muted mt-2 mt-md-0"><?= date('d.m.Y H:i', strtotime($data['updated_at'])) ?></small>
                     </div>
+                </div>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </div>

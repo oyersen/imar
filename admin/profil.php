@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'id' => $id,
             'username' => $_POST['username'],
             'password' => $password,
-            'superAdmin' => $_SESSION["superAdmin"], // Varsayılan değer 0
+            'superAdmin' => $_SESSION["superAdmin"],
         ];
 
         // Güncelleme işlemini yap

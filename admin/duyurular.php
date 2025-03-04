@@ -8,6 +8,17 @@ if (!isset($_SESSION["user"])) {
 require_once('db.php');
 $DB = new DB();
 $json_data = $DB->get_all_data();
+// Aktiflik durumuna göre sıralama fonksiyonu
+function sortByActive($a, $b)
+{
+    if ($a->is_active == $b->is_active) {
+        return 0;
+    }
+    return ($a->is_active > $b->is_active) ? -1 : 1; // Aktif olanları üste getir
+}
+
+// Diziyi sırala
+usort($json_data, 'sortByActive');
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -43,7 +54,8 @@ $json_data = $DB->get_all_data();
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
                                         <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()" class="text-decoration-none text-reset fw-bolder mx-3">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
                                                 <i class="fa-solid fa-times"></i>
                                             </a>
                                         </div>
@@ -56,7 +68,8 @@ $json_data = $DB->get_all_data();
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
                                         <div class="col-auto">
-                                            <a href="#" onclick="$(this).closest('.alert').remove()" class="text-decoration-none text-reset fw-bolder mx-3">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
                                                 <i class="fa-solid fa-times"></i>
                                             </a>
                                         </div>
@@ -70,7 +83,8 @@ $json_data = $DB->get_all_data();
                                 <div class="d-flex justify-content-between">
                                     <div class="card-title col-auto flex-shrink-1 flex-grow-1">Duyuru Listesi</div>
                                     <div class="col-auto">
-                                        <a class="btn btn-primary btn-sm btn-flat" href="duyuru.php"><i class="fa fa-plus-square"></i> Yeni Kayıt</a>
+                                        <a class="btn btn-primary btn-sm btn-flat" href="duyuru.php"><i
+                                                class="fa fa-plus-square"></i> Yeni Kayıt</a>
                                     </div>
                                 </div>
                             </div>
@@ -78,36 +92,99 @@ $json_data = $DB->get_all_data();
                                 <div class="container-fluid">
                                     <table class="table table-stripped table-bordered">
                                         <colgroup>
-                                            <col width="20%">
+                                            <col width="5%">
+                                            <col width="25%">
                                             <col width="40%">
                                             <col width="15%">
-                                            <col width="20%">
+                                            <col width="15%">
                                         </colgroup>
                                         <thead>
                                             <tr>
-                                                <th class="text-center">Başlık</th>
-                                                <th class="text-center">İçerik</th>
-                                                <th class="text-center">Yazan</th>
+                                                <th>Aktif</th>
+                                                <th>Başlık</th>
+                                                <th>İçerik</th>
+                                                <th class="text-center">Güncelleyen</th>
                                                 <th class="text-center">İşlemler</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($json_data as $data): ?>
-                                                <tr>
+                                                <tr
+                                                    style="<?= $data->is_active == 1 ? 'background-color: #e6ffe6;' : 'background-color:rgb(244, 243, 243);' ?>">
+                                                    <td>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="isActive<?= $data->id ?>"
+                                                                <?= $data->is_active == 1 ? 'checked' : '' ?>
+                                                                onchange="toggleActive(<?= $data->id ?>, this.checked ? 1 : 0)">
+                                                            <label class="form-check-label"
+                                                                for="isActive<?= $data->id ?>"></label>
+                                                        </div>
+                                                    </td>
                                                     <td><?= $data->title ?></td>
                                                     <td><?= $data->content ?></td>
-                                                    <td><?= strtoupper($data->updated_by)  ?></td>
                                                     <td class="text-center">
-                                                        <a href="duyuru.php?id=<?= $data->id ?>" class="btn btn-sm btn-outline-info rounded-0">
+                                                        <strong><?= strtoupper($data->updated_by) ?></strong><br><?= $data->updated_at ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="duyuru.php?id=<?= $data->id ?>"
+                                                            class="btn btn-sm btn-outline-info rounded-0">
                                                             <i class="fa-solid fa-edit"></i>
                                                         </a>
-                                                        <a href="delete_data.php?id=<?= $data->id ?>" class="btn btn-sm btn-outline-danger rounded-0" onclick="if(confirm(`Are you sure to delete <?= $data->name ?> details?`) === false) event.preventDefault();">
+                                                        <button type="button" class="btn btn-sm btn-danger rounded-0"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal<?= $data->id ?>">
                                                             <i class="fa-solid fa-trash"></i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                 </tr>
+
+                                                <div class="modal fade" id="deleteModal<?= $data->id ?>" tabindex="-1"
+                                                    aria-labelledby="deleteModalLabel<?= $data->id ?>" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="deleteModalLabel<?= $data->id ?>">Silme Onayı</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Silmek istediğinize emin misiniz?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Vazgeç</button>
+                                                                <a href="delete_data.php?id=<?= $data->id ?>"
+                                                                    class="btn btn-danger">Sil</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             <?php endforeach; ?>
                                         </tbody>
+
+                                        <script>
+                                            function toggleActive(id, isActive) {
+                                                // AJAX isteği ile db.php'yi güncelle
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.open('POST', 'db.php', true);
+                                                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                                xhr.onload = function() {
+                                                    if (this.status >= 200 && this.status < 400) {
+                                                        // Başarılı güncelleme, sayfayı yenile
+                                                        location.reload();
+                                                    } else {
+                                                        // Hata durumu
+                                                        alert('Güncelleme başarısız.');
+                                                    }
+                                                };
+                                                xhr.onerror = function() {
+                                                    alert('Güncelleme başarısız.');
+                                                };
+                                                xhr.send('action=updateActive&id=' + id + '&is_active=' + isActive);
+                                            }
+                                        </script>
                                     </table>
                                 </div>
                             </div>
