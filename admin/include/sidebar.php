@@ -24,7 +24,7 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 <link rel="stylesheet" href="assets/css/layout.css">
 <div class="sidebar">
-    <h4 class="sidebar-title">ADMIN PANELİ</h4>
+    <h4 class="sidebar-title"></h4>
     <p>MERHABA, <?= strtoupper($_SESSION['user']) ?>.</p>
     <ul class="sidebar-nav">
         <li class="nav-item">
