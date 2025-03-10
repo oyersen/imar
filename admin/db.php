@@ -51,7 +51,7 @@ class DB
         }
 
         $now = date('Y-m-d H:i:s');
-        $stmt = $this->db->prepare("INSERT INTO duyurular (id,title, content, created_at, updated_at, is_active, created_by, updated_by) VALUES (:id ,:title, :content, :created_at, :updated_at, :is_active, :created_by, :updated_by)");
+        $stmt = $this->db->prepare("INSERT INTO duyurular (id, title, content, created_at, updated_at, is_active, created_by, updated_by, is_banner) VALUES (:id, :title, :content, :created_at, :updated_at, :is_active, :created_by, :updated_by, :is_banner)");
         try {
             $result = $stmt->execute([
                 ':id' => date("YmdHis"),
@@ -61,7 +61,8 @@ class DB
                 ':updated_at' => $now,
                 ':is_active' => 1,
                 ':created_by' => $data['created_by'],
-                ':updated_by' => $data['created_by']
+                ':updated_by' => $data['created_by'],
+                ':is_banner' => isset($data['is_banner']) ? $data['is_banner'] : 0 // is_banner'ı ekledik
             ]);
         } catch (PDOException $e) {
             return $this->error_response('Veritabanına ekleme başarısız: ' . $e->getMessage());
@@ -73,7 +74,7 @@ class DB
     public function update_data($data)
     {
         $updated_at = date('Y-m-d H:i:s');
-        $stmt = $this->db->prepare("UPDATE duyurular SET title = :title, content = :content, updated_at = :updated_at, is_active = :is_active, updated_by = :updated_by WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE duyurular SET title = :title, content = :content, updated_at = :updated_at, is_active = :is_active, updated_by = :updated_by, is_banner = :is_banner WHERE id = :id");
         try {
             $result = $stmt->execute([
                 ':title' => htmlspecialchars($data['title']),
@@ -81,7 +82,8 @@ class DB
                 ':updated_at' => $updated_at,
                 ':is_active' => $data['is_active'],
                 ':updated_by' => $data['updated_by'],
-                ':id' => $data['id']
+                ':id' => $data['id'],
+                ':is_banner' => isset($data['is_banner']) ? $data['is_banner'] : 0 // is_banner'ı ekledik
             ]);
         } catch (PDOException $e) {
             return $this->error_response('Veritabanı güncelleme başarısız: ' . $e->getMessage());

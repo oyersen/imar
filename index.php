@@ -50,7 +50,7 @@ try {
                 <a href="./" class="text-decoration-none">
                     <img src="./src/img/imar_logo.png" alt="Logo" width="50" style="margin-right: 10px;">
                 </a>
-                <h3 style="margin: 0;">İMAR İSTANBUL</h3> <!-- margin: 0 ile h3'ün varsayılan margin'ini sıfırladık -->
+                <h3 style="margin: 0;">İSTANBUL İMAR</h3> <!-- margin: 0 ile h3'ün varsayılan margin'ini sıfırladık -->
             </div>
             <div class="social-icons">
                 <a href="https://www.facebook.com/istanbulimar1947/" class="me-2"><i class="fab fa-facebook-f"></i></a>
@@ -66,7 +66,29 @@ try {
     <div class="jumbotron jumbotron-fluid bg-light  text-center py-5">
         <div class="container">
             <h1 class="display-4">Personel Hizmetleri Sistemi</h1>
-            <p class="lead">Tüm hizmetlerimiz yakında erişime açılacaktır.</p>
+
+            <!-- MANŞET -->
+            <div class="list-group col-md-8 mx-auto">
+                <?php foreach ($duyurular as $data): ?>
+                    <?php if ($data['is_active'] == 1 && $data['is_banner'] == 1): ?>
+                        <div class="border shadow-sm p-3 mb-2">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                <div class="flex-grow-1">
+
+                                    <h3 class="text-danger  fw-semibold"><?= htmlspecialchars($data['title']) ?></h3>
+                                    <div class="text-danger mb-5">
+                                        <?= nl2br(htmlspecialchars($data['content'])) ?>
+                                    </div>
+                                    <h4 class="text-danger text-end">
+                                        <?= htmlspecialchars($data['realName']) ?>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+
         </div>
     </div>
 
@@ -79,7 +101,7 @@ try {
                     <div class="card h-100 card-hover">
                         <img src="./src/img/imar_logo.png" class="card-img-top  d-flex mx-auto" alt="Hizmet 1">
                         <div class="card-body">
-                            <h5 class="card-title">İMAR İSTANBUL</h5>
+                            <h5 class="card-title">İSTANBUL İMAR</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
@@ -94,7 +116,7 @@ try {
                             alt="Hizmet 2">
                         <div class="card-body">
                             <h5 class="card-title">Rehber</h5>
-                            <p class="card-text">Bu hizmetimiz erişime açılmıştır.</p>
+                            <p class="card-text"></p>
                         </div>
                     </div>
                 </a>
@@ -108,7 +130,7 @@ try {
                         <img src="./src/img/bilgisistemi.png" class="card-img-top  d-flex mx-auto" alt="Hizmet 3">
                         <div class="card-body">
                             <h5 class="card-title">Bilgi İşlem Talep Sistemi</h5>
-                            <p class="card-text">Bu hizmetimiz erişime açılmıştır.</p>
+                            <p class="card-text"></p>
                         </div>
                     </div>
                 </a>
@@ -121,54 +143,56 @@ try {
                         <img src="./src/img/file.png" class="card-img-top d-flex mx-auto" alt="Hizmet 4">
                         <div class="card-body">
                             <h5 class="card-title">Dökümanlar</h5>
-                            <p class="card-text">Bu hizmet yakın zamanda erişime açılacaktır.</p>
+                            <p class="card-text"></p>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-
-    <div class="fluid bg-light py-1 mb-5">
-        <div class="container">
-            <div class="text-center">
-                <h5 class="text-danger fw-bold"> Duyuru!</h5>
-                <h5 class="fw-semibold">Personel Hizmetleri Sistemi</h5>
-                <p class="fw-medium text-muted"></p>
-            </div>
-
-            <div class="list-group">
-                <?php foreach ($duyurular as $data): ?>
-                <?php if ($data['is_active'] == 1): ?>
-                <div class="list-group-item border rounded shadow-sm p-3 mb-2"
-                    style="background: linear-gradient(to right, #f9f9f9, #ececec);">
-                    <div
-                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                        <div class="flex-grow-1">
-                            <h6 class="text-secondary fw-semibold"><?= htmlspecialchars($data['title']) ?></h6>
-                            <p class="text-muted mb-0">
-                                <?= htmlspecialchars($data['content']) ?>
-                            </p>
-                        </div>
-                        <small
-                            class="text-muted mt-2 mt-md-0"><?= date('d.m.Y H:i', strtotime($data['updated_at'])) ?></small>
-                    </div>
+    <div class="bg-white">
+        <div class="fluid py-1 mb-5">
+            <div class="container">
+                <div class="text-center">
+                    <h5 class="text-danger fw-bold"> Duyuru!</h5>
+                    <h5 class="fw-semibold">Personel Hizmetleri Sistemi</h5>
+                    <p class="fw-medium text-muted"></p>
                 </div>
-                <?php endif; ?>
-                <?php endforeach; ?>
+
+                <div class="list-group">
+                    <?php foreach ($duyurular as $data): ?>
+                        <?php if ($data['is_active'] == 1 && $data['is_banner'] == 0): ?>
+                            <div class="list-group-item border rounded shadow-sm p-3 mb-2"
+                                style="background: linear-gradient(to right, #f9f9f9, #ececec);">
+                                <div
+                                    class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-secondary fw-semibold"><?= htmlspecialchars($data['title']) ?></h6>
+                                        <p class="text-muted mb-0">
+                                            <?= htmlspecialchars($data['content']) ?>
+                                        </p>
+                                    </div>
+                                    <small
+                                        class="text-muted mt-2 mt-md-0"><?= date('d.m.Y H:i', strtotime($data['updated_at'])) ?></small>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
 
-
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-1">
+    <footer class="fixed-bottom">
 
-        <div class="container">
-            <p>&copy; 2025 İmar A.Ş. Personel Hizmetleri Sistemi. Tüm hakları saklıdır.</p>
+        <div class="bg-dark text-white text-center py-1">
+            <div class="container">
+                <p>&copy; 2025 İstanbul İmar A.Ş. Personel Hizmetleri Sistemi. Tüm hakları saklıdır.</p>
+            </div>
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

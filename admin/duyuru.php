@@ -65,49 +65,49 @@ $data = $DB->get_data($id);
                     <div class="container-fluid">
 
                         <?php if (isset($_SESSION['msg_success']) || isset($_SESSION['msg_error'])): ?>
-                        <?php if (isset($_SESSION['msg_success'])): ?>
-                        <div class="alert alert-success rounded-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
-                                <div class="col-auto">
-                                    <a href="#" onclick="$(this).closest('.alert').remove()"
-                                        class="text-decoration-none text-reset fw-bolder mx-3">
-                                        <i class="fa-solid fa-times"></i>
-                                    </a>
+                            <?php if (isset($_SESSION['msg_success'])): ?>
+                                <div class="alert alert-success rounded-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_success'] ?></div>
+                                        <div class="col-auto">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
+                                                <i class="fa-solid fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <?php unset($_SESSION['msg_success']); ?>
-                        <?php endif; ?>
-                        <?php if (isset($_SESSION['msg_error'])): ?>
-                        <div class="alert alert-danger rounded-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
-                                <div class="col-auto">
-                                    <a href="#" onclick="$(this).closest('.alert').remove()"
-                                        class="text-decoration-none text-reset fw-bolder mx-3">
-                                        <i class="fa-solid fa-times"></i>
-                                    </a>
+                                <?php unset($_SESSION['msg_success']); ?>
+                            <?php endif; ?>
+                            <?php if (isset($_SESSION['msg_error'])): ?>
+                                <div class="alert alert-danger rounded-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="col-auto flex-shrink-1 flex-grow-1"><?= $_SESSION['msg_error'] ?></div>
+                                        <div class="col-auto">
+                                            <a href="#" onclick="$(this).closest('.alert').remove()"
+                                                class="text-decoration-none text-reset fw-bolder mx-3">
+                                                <i class="fa-solid fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <?php unset($_SESSION['msg_error']); ?>
-                        <?php endif; ?>
+                                <?php unset($_SESSION['msg_error']); ?>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <div class="card rounded-0 shadow">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between">
                                     <div class="card-title col-auto flex-shrink-1 flex-grow-1">
                                         <?php if (isset($data->id)): ?>
-                                        <i>Güncelle "<?= isset($data->title) ? $data->title : '' ?>"</i>
+                                            <i>Güncelle "<?= isset($data->title) ? $data->title : '' ?>"</i>
                                         <?php else: ?>
-                                        <i>Yeni Kayıt Oluştur</i>
+                                            <i>Yeni Kayıt Oluştur</i>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (isset($data->updated_at)): ?>
-                                    <div class="text-end">
-                                        Son Güncellenme Tarihi: <?= $data->updated_at ?>
-                                    </div>
+                                        <div class="text-end">
+                                            Son Güncellenme Tarihi: <?= $data->updated_at ?>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -115,10 +115,9 @@ $data = $DB->get_data($id);
                                 <div class="container-fluid">
                                     <form id="member-form" action="" method="POST">
                                         <?php if (isset($data->id)): ?>
-                                        <input type="hidden" name="updated_by" value="<?= $_SESSION["user"] ?>">
+                                            <input type="hidden" name="updated_by" value="<?= $_SESSION["user"] ?>">
                                         <?php else: ?>
-                                        <input type="hidden" name="created_by"
-                                            value="<?= isset($data->created_by) ? $data->created_by : $_SESSION["user"] ?>">
+                                            <input type="hidden" name="created_by" value="<?= isset($data->created_by) ? $data->created_by : $_SESSION["user"] ?>">
                                         <?php endif; ?>
 
                                         <input type="hidden" name="id" value="<?= isset($data->id) ? $data->id : '' ?>">
@@ -154,16 +153,26 @@ $data = $DB->get_data($id);
                                                     disabled>
                                             </div>
                                         </div>
-
                                         <div class="row mb-3">
                                             <div class="col-12">
-                                                <label for="is_active" class="form-label">Aktif</label>
-                                                <div class="rounded p-2 text-center clickable <?= isset($data->is_active) && $data->is_active == 1 ? 'bg-success text-white' : 'bg-secondary text-white' ?>"
+                                                <label for="is_banner" class="form-label">Manşet</label>
+                                                <div id="is_banner" class="rounded p-2 text-center clickable <?= isset($data->is_banner) && $data->is_banner == 1 ? 'bg-danger text-white' : 'bg-primary text-white' ?>"
+                                                    onclick="toggleIsBanner()">
+                                                    <?= isset($data->is_banner) && $data->is_banner == 1 ? 'Manşet' : 'Duyuru' ?>
+                                                </div>
+                                                <input type="hidden" name="is_banner" id="is_banner_hidden"
+                                                    value="<?= isset($data->is_banner) ? $data->is_banner : 0  ?>">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3" <?php if (!isset($data->id)) echo 'style="display: none;"'; ?>>
+                                            <div class="col-12">
+                                                <label for="is_active" class="form-label">Durum</label>
+                                                <div id="is_active" class="rounded p-2 text-center clickable <?= isset($data->is_active) && $data->is_active == 1 ? 'bg-success text-white' : 'bg-secondary text-white' ?>"
                                                     onclick="toggleIsActive()">
                                                     <?= isset($data->is_active) && $data->is_active == 1 ? 'Aktif' : 'Pasif' ?>
                                                 </div>
                                                 <input type="hidden" name="is_active" id="is_active_hidden"
-                                                    value="<?= isset($data->is_active) ? $data->is_active : 0  ?>">
+                                                    value="<?= isset($data->is_active) ? $data->is_active : 0 ?>">
                                             </div>
                                         </div>
                                     </form>
@@ -181,25 +190,45 @@ $data = $DB->get_data($id);
             </div>
         </div>
         <script>
-        function toggleIsActive() {
-            var hiddenInput = document.getElementById('is_active_hidden');
-            var div = document.querySelector('.clickable');
-            var isActive = hiddenInput.value == 1;
-            var newIsActive = isActive ? 0 : 1;
-            var newBackgroundColor = newIsActive == 1 ? 'bg-success' : 'bg-secondary';
-            var newText = newIsActive == 1 ? 'Aktif' : 'Pasif';
+            function toggleIsActive() {
+                var hiddenInput = document.getElementById('is_active_hidden');
+                var div = document.querySelector('#is_active');
+                var isActive = hiddenInput.value == 1;
+                var newIsActive = isActive ? 0 : 1;
+                var newBackgroundColor = newIsActive == 1 ? 'bg-success' : 'bg-secondary';
+                var newText = newIsActive == 1 ? 'Aktif' : 'Pasif';
 
-            // Div'in stilini ve metnini güncelle
-            div.classList.remove('bg-success', 'bg-secondary');
-            div.classList.add(newBackgroundColor);
-            div.textContent = newText;
+                // Div'in stilini ve metnini güncelle
+                div.classList.remove('bg-success', 'bg-secondary');
+                div.classList.add(newBackgroundColor);
+                div.textContent = newText;
 
-            // Gizli input'un değerini güncelle
-            hiddenInput.value = newIsActive;
-            console.log(hiddenInput.value);
-            console.log(newIsActive);
-            console.log(document.getElementById('is_active_hidden').value);
-        }
+                // Gizli input'un değerini güncelle
+                hiddenInput.value = newIsActive;
+                console.log(hiddenInput.value);
+                console.log(newIsActive);
+                console.log(document.getElementById('is_active_hidden').value);
+            }
+
+            function toggleIsBanner() {
+                var hiddenInput = document.getElementById('is_banner_hidden');
+                var div = document.querySelector('#is_banner');
+                var isBanner = hiddenInput.value == 1;
+                var newIsBanner = isBanner ? 0 : 1;
+                var newBackgroundColor = newIsBanner == 1 ? 'bg-danger' : 'bg-primary';
+                var newText = newIsBanner == 1 ? 'Manşet' : 'Duyuru';
+
+                // Div'in stilini ve metnini güncelle
+                div.classList.remove('bg-danger', 'bg-primary');
+                div.classList.add(newBackgroundColor);
+                div.textContent = newText;
+
+                // Gizli input'un değerini güncelle
+                hiddenInput.value = newIsBanner;
+                console.log(hiddenInput.value);
+                console.log(newIsBanner);
+                console.log(document.getElementById('is_banner_hidden').value);
+            }
         </script>
 </body>
 

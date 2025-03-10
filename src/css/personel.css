@@ -182,11 +182,19 @@ a.text-decoration-none:hover {
 }
 
 footer {
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     left: 0;
     width: 100%;
     background-color: #f8f9fa;
     /* Arka plan rengi */
     text-align: center;
+}
+
+#duyuruCarousel .carousel-indicators button {
+    background-color: black;
+}
+
+#duyuruCarousel .carousel-indicators .active {
+    opacity: 1;
 }

@@ -12,7 +12,7 @@ class DuyuruModel
     public function tumDuyurulariGetir()
     {
         try {
-            $stmt = $this->db->query("SELECT * FROM duyurular");
+            $stmt = $this->db->query("SELECT duyurular.*, admin.realName FROM duyurular LEFT JOIN admin ON duyurular.created_by = admin.username");
             $duyurular = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Veri doğrulama (örnek)
