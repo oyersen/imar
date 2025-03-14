@@ -22,7 +22,7 @@ class DB
 
     public function get_all_data()
     {
-        $stmt = $this->db->query("SELECT * FROM duyurular");
+        $stmt = $this->db->query("SELECT duyurular.*, admin.realName FROM duyurular LEFT JOIN admin ON duyurular.created_by = admin.username");
         $data = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $data[$row['id']] = (object) $row;

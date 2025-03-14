@@ -35,6 +35,10 @@ if (session_status() == PHP_SESSION_NONE) {
             <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'duyurular.php' ? 'active' : '' ?>"
                 href="./duyurular"><i class="fas fa-bullhorn"></i> Duyuru</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'dosyayoneticisi.php' ? 'active' : '' ?>"
+                href="./dosyayoneticisi"><i class="fas fa-bullhorn"></i> Dosya Yöneticisi</a>
+        </li>
         <?php if (isset($_SESSION['superAdmin']) && $_SESSION['superAdmin'] == 1): ?>
             <li class="nav-item">
                 <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'admin.php' ? 'active' : '' ?>" href="./admin"><i

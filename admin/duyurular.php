@@ -110,7 +110,7 @@ usort($json_data, 'sortByActive');
                                         <tbody>
                                             <?php foreach ($json_data as $data): ?>
                                                 <tr
-                                                    style="<?= $data->is_active == 1 ? 'background-color: #e6ffe6;' : 'background-color:rgb(244, 243, 243);' ?>">
+                                                    style="<?= $data->is_active == 1 ? ($data->is_banner == 1 ? 'background-color:rgba(254, 188, 188, 0.52);' : 'background-color: #e6ffe6;') : 'background-color: rgb(244, 243, 243);' ?>">
                                                     <td>
                                                         <div class="form-check form-switch">
                                                             <input class="form-check-input" type="checkbox"

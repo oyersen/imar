@@ -79,9 +79,7 @@ try {
                                     <div class="text-danger mb-5">
                                         <?= nl2br(htmlspecialchars($data['content'])) ?>
                                     </div>
-                                    <h4 class="text-danger text-end">
-                                        <?= htmlspecialchars($data['realName']) ?>
-                                    </h4>
+
                                 </div>
                             </div>
                         </div>
@@ -160,8 +158,10 @@ try {
                 </div>
 
                 <div class="list-group">
+                    <?php $aktif_duyuru_var = false; ?>
                     <?php foreach ($duyurular as $data): ?>
                         <?php if ($data['is_active'] == 1 && $data['is_banner'] == 0): ?>
+                            <?php $aktif_duyuru_var = true; ?>
                             <div class="list-group-item border rounded shadow-sm p-3 mb-2"
                                 style="background: linear-gradient(to right, #f9f9f9, #ececec);">
                                 <div
@@ -178,18 +178,32 @@ try {
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
+
+                    <?php if (!$aktif_duyuru_var): ?>
+                        <div class="list-group-item border rounded shadow-sm p-3 mb-2"
+                            style="background: linear-gradient(to right, #f9f9f9, #ececec);">
+                            <div
+                                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted mb-0 text-center">
+                                        Duyurularımızı Buradan Takip Edebilirsiniz. Henüz Aktif Bir Duyuru Bulunmamaktadır.
+                                    </p>
+                                    <p class="text-muted mb-0 text-center">
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="fixed-bottom">
-
-        <div class="bg-dark text-white text-center py-1">
-            <div class="container">
-                <p>&copy; 2025 İstanbul İmar A.Ş. Personel Hizmetleri Sistemi. Tüm hakları saklıdır.</p>
-            </div>
+    <footer class="bg-dark text-white text-center py-1">
+        <div class="container">
+            <p>&copy; 2025 İmar A.Ş. Personel Hizmetleri Sistemi. Tüm hakları saklıdır.</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
