@@ -24,12 +24,13 @@
 </head>
 
 <body>
+    
     <div class="container">
         <div class="header">
             <img id="ibb_logo" src="./src/img/ibb_logo.png">
             <h2>
                 İletişim Listesi</h2>
-            <a href="./"> <img id="imar_logo" src="./src/img/favicon.ico"></a>
+            <a href="./"> <img id="imar_logo" src="./src/img/imar_logo.png"></a>
         </div>
         <input type="text" id="search" class="form-control" placeholder="Personel Ara..." autocomplete="off">
         <div class="table-responsive">

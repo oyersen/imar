@@ -42,25 +42,9 @@ try {
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="bg-white text-white p-3">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo" style="display: flex; align-items: center;">
-                <!-- Logo olarak img dosyası kullanılıyor -->
-                <a href="./" class="text-decoration-none">
-                    <img src="./src/img/imar_logo.png" alt="Logo" width="50" style="margin-right: 10px;">
-                </a>
-                <h3 style="margin: 0;">İSTANBUL İMAR</h3> <!-- margin: 0 ile h3'ün varsayılan margin'ini sıfırladık -->
-            </div>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/istanbulimar1947/" class="me-2"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://twitter.com/istanbulimaras" class="me-2"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/istanbul_imar" class="me-2"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/company/istanbul-imar-construction-co" class=""><i
-                        class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-    </header>
+    <?php
+    include 'include/header.php';
+    ?>
 
     <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid bg-light  text-center py-5">
@@ -68,7 +52,7 @@ try {
             <h1 class="display-4">Personel Hizmetleri Sistemi</h1>
 
             <!-- MANŞET -->
-            <div class="list-group col-md-8 mx-auto">
+            <!-- <div class="list-group col-md-8 mx-auto">
                 <?php foreach ($duyurular as $data): ?>
                     <?php if ($data['is_active'] == 1 && $data['is_banner'] == 1): ?>
                         <div class="border shadow-sm p-3 mb-2">
@@ -85,7 +69,7 @@ try {
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -93,13 +77,26 @@ try {
     <!-- Cards -->
     <div class="container my-5">
         <div class="row">
-            <!-- Kart 1 -->
+            <!-- Kart 0 -->
             <div class="col-md-3 mb-4">
                 <a href="https://imar.istanbul" class="text-decoration-none">
                     <div class="card h-100 card-hover">
                         <img src="./src/img/imar_logo.png" class="card-img-top  d-flex mx-auto" alt="Hizmet 1">
                         <div class="card-body">
                             <h5 class="card-title">İSTANBUL İMAR</h5>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Kart 1 -->
+            <div class="col-md-3 mb-4">
+                <a href="./duyuru" class="text-decoration-none">
+                    <div class="card h-100 card-hover">
+                        <img src="./src/img/duyuru.png" class="card-img-top  d-flex mx-auto" alt="Hizmet 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Duyurular</h5>
                             <p class="card-text"></p>
                         </div>
                     </div>
@@ -148,7 +145,7 @@ try {
             </div>
         </div>
     </div>
-    <div class="bg-white">
+    <!-- <div class="bg-white">
         <div class="fluid py-1 mb-5">
             <div class="container">
                 <div class="text-center">
@@ -198,7 +195,7 @@ try {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-1">
