@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dosya Listesi</title>
-    <link rel="shortcut icon" href="https://www.imar.istanbul/assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="./src/img/imar_logo.png" />
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,23 +15,17 @@
 </head>
 
 <body>
-    <header class="bg-white p-3">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo" style="display: flex; align-items: center;">
-                <a href="./" class="text-decoration-none">
-                    <img src="./src/img/favicon.ico" alt="Logo" width="50" style="margin-right: 10px;">
-                </a>
-                <h3 style="margin: 0;">İMAR İSTANBUL</h3>
-            </div>
-        </div>
-    </header>
-
+    <?php
+    include 'include/header.php';
+    ?>
     <!-- Jumbotron -->
-    <div class="jumbotron text-center py-4 bg-light">
-        <h2 class="display-6">Dosya Listesi</h2>
-        <p class="lead">Aşağıdaki dosyaları indirip kullanabilirsiniz.</p>
+    <div class="jumbotron jumbotron-fluid bg-light  text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Personel Hizmetleri Sistemi</h1>
+            <h2 class="display-6">Dosya Listesi</h2>
+            <p class="lead">Aşağıdaki dosyaları indirip kullanabilirsiniz.</p>
+        </div>
     </div>
-
     <!-- Search Box -->
     <div class="container my-3">
         <input type="text" id="searchInput" class="form-control mb-3" placeholder="Dosya ara..." onkeyup="filterFiles()">
